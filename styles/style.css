@@ -24,7 +24,6 @@ body {
   width: 400px;
   height: 545px;
   background-color: #272626;
-  box-shadow: 0px 0px 2px 1px #272626;
 }
 #calculator-container #output {
   border-radius: 5px;
