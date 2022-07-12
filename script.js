@@ -6,59 +6,102 @@ const output = document.querySelector('#output');
 const clearBtn = document.querySelector('#clear');
 const negativeBtn = document.querySelector('#negative');
 const decimalBtn = document.querySelector('#decimal');
-const equalBtn = document.querySelector('#equal')
-
-const divideBtn = document.querySelector('#divide');
-const multiplyBtn = document.querySelector('#multiply');
-const subtractBtn = document.querySelector('#subtract');
-const additionBtn = document.querySelector('#addition');
+const equalBtn = document.querySelector('#equal');
+const percentBtn = document.querySelector('#percent');
 
 const numBtns = document.querySelectorAll('#num-btns');
+const operators = document.querySelectorAll('#functions');
 
-numBtns.forEach(pressedNum => pressedNum.addEventListener('click', displayPressedOutput));
-divideBtn.addEventListener('click', displayPressedOutput);
-multiplyBtn.addEventListener('click', displayPressedOutput);
-subtractBtn.addEventListener('click', displayPressedOutput);
-additionBtn.addEventListener('click', displayPressedOutput);
+numBtns.forEach(pressedNum => pressedNum.addEventListener('click', (e) => {
+    getNumber(e.target.textContent);
+}));
 
-/*
-numBtns.forEach(pressedNum => pressedNum.addEventListener('click', getNumber));
-divideBtn.addEventListener('click', getOperator);
-multiplyBtn.addEventListener('click', getOperator);
-subtractBtn.addEventListener('click', getOperator);
-additionBtn.addEventListener('click', getOperator);
-*/
+operators.forEach(pressedfunc => pressedfunc.addEventListener('click', (e) => {
+    getOperator(e.target.textContent);
+}));
 
 clearBtn.addEventListener('click', allClear);
+decimalBtn.addEventListener('click', addDecimal);
+percentBtn.addEventListener('click', addPercent);
+negativeBtn.addEventListener('click', addNegative);
 
+equalBtn.addEventListener('click', () => {
+    if(fNumber != "" && sNumber != ""){
+        operate();
+    }
+});
 
-function displayPressedOutput(e){
-    let pressedInput = e.target.textContent;
-    output.textContent = pressedInput;
+function getNumber(number){
+    if(fNumber.length <= 12){
+        fNumber += number;
+        output.textContent = fNumber;
+    }
 }
 
-function operate(num1, num2, operator){
-    let result = 0;
+function getOperator(op){
+    operator = op;
+    output.textContent = operator;
+    sNumber = fNumber;
+    fNumber = "";
+}
+
+function operate(){
+    fNumber = Number(fNumber);
+    sNumber = Number(sNumber);
+
     if(operator === "+"){
-        result = num1 + num2;
+        fNumber += sNumber;
     }
     else if (operator === "-"){
-        result = num1 - num2;
+        fNumber = sNumber - fNumber;
     }
     else if (operator === "*"){
-        result = num1 * num2;
+        fNumber *= sNumber;
     }
     else if (operator === "/"){
-        result = num1 / num2;
+        if(sNumber <= 0){
+            fNumber = "";
+            outputDisplay();
+            return;
+        }
+        fNumber = sNumber / fNumber;
     }
-    output.textContent= result;
-    return result;
+    fNumber = fNumber.toString();
+    outputDisplay();
 }
 
 function allClear (){
-    fNumber = 0;
-    sNumber = 0;
+    fNumber = "";
+    sNumber = "";
     operator = "";
     output.textContent = 0;
+}
+
+function addDecimal (){
+    if(!fNumber.includes(".")){
+        fNumber += ".";
+        output.textContent = fNumber;
+    }
+}
+
+function addPercent (){
+    fNumber = (fNumber / 100);
+    output.textContent = fNumber;
+}
+
+function addNegative (){
+    fNumber = (fNumber * -1);
+    output.textContent = fNumber;
+}
+
+function outputDisplay() {
+    output.textContent = "";
+    operator = "";
+    if(fNumber.length <= 11){
+        output.textContent = fNumber;
+    }
+    else {
+        output.textContent = fNumber.slice(0,11) + "...";
+    }
 }
 
