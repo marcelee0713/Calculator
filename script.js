@@ -20,6 +20,10 @@ operators.forEach(pressedfunc => pressedfunc.addEventListener('click', (e) => {
     getOperator(e.target.textContent);
 }));
 
+window.addEventListener('keydown', (e) => {
+    getKeyboard(e.key);
+})
+
 clearBtn.addEventListener('click', allClear);
 decimalBtn.addEventListener('click', addDecimal);
 percentBtn.addEventListener('click', addPercent);
@@ -35,6 +39,40 @@ function getNumber(number){
     if(fNumber.length <= 12){
         fNumber += number;
         output.textContent = fNumber;
+    }
+}
+
+function getKeyboard(e){
+    console.log(e);
+    if(e >= "0" && e <= "9"){
+        getNumber(e);
+    }
+    else if (e === "Enter" || e === "="){
+        operate();
+    }
+    else if (e === "+"){
+        getOperator("+");
+    }
+    else if (e === "*"){
+        getOperator("*");
+    }
+    else if (e === "-"){
+        getOperator("-");
+    }
+    else if (e === "/"){
+        getOperator("/");
+    }
+    else if (e === "."){
+        addDecimal();
+    }
+    else if (e === "%"){
+        addPercent();
+    }
+    else if (e === "Delete"){
+        allClear();
+    }
+    else if ( e === "Backspace"){
+        handleBackspace();
     }
 }
 
@@ -103,5 +141,15 @@ function outputDisplay() {
     else {
         output.textContent = fNumber.slice(0,11) + "...";
     }
+}
+function handleBackspace(){
+    fNumber = fNumber.slice(0, -1);
+    if(fNumber === ""){
+        fNumber = "0";
+        sNumber = "";
+        operator = "";
+        output.textContent = fNumber;
+    }
+    output.textContent = fNumber;
 }
 
