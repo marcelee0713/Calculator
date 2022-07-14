@@ -97,8 +97,8 @@ function operate(){
         fNumber *= sNumber;
     }
     else if (operator === "/"){
-        if(sNumber <= 0){
-            fNumber = "";
+        if(fNumber <= 0){
+            output.textContent = "huh?";
             outputDisplay();
             return;
         }
@@ -133,7 +133,6 @@ function addNegative (){
 }
 
 function outputDisplay() {
-    output.textContent = "";
     operator = "";
     if(fNumber.length <= 11){
         output.textContent = fNumber;
